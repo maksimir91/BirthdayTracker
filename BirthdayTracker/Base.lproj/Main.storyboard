@@ -47,7 +47,7 @@
         <!--Add Birthdays-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="BirthdayTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="AddBirthdayViewController" customModule="BirthdayTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -86,7 +86,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="wheels" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J86-fA-BZv">
-                                <rect key="frame" x="20" y="300" width="335" height="0.0"/>
+                                <rect key="frame" x="20" y="300" width="320" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="736787943.06761801">
                                     <!--2024-05-07 15:19:03 +0000-->
@@ -103,9 +103,22 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Add Birthdays" id="bmG-aT-Lme">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="sGh-bo-xsi"/>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="Wfd-r6-lkc"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="sGh-bo-xsi">
+                            <connections>
+                                <action selector="cancelTapped:" destination="BYZ-38-t0r" id="0cE-kq-U6w"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="Wfd-r6-lkc">
+                            <connections>
+                                <action selector="saveTapped:" destination="BYZ-38-t0r" id="EYT-0u-8Vk"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="birthDatePicker" destination="J86-fA-BZv" id="NeU-p4-jin"/>
+                        <outlet property="firstNameTextField" destination="J3G-OQ-x4D" id="DGC-cx-R95"/>
+                        <outlet property="lastNameTextField" destination="BWF-C0-kt8" id="KdV-zS-Z6Z"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
