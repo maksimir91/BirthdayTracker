@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 class BirthdaysTableViewController: UITableViewController /* AddBirthdayViewControllerDelegate */ {
     
@@ -17,7 +18,6 @@ class BirthdaysTableViewController: UITableViewController /* AddBirthdayViewCont
         super.viewDidLoad()
         dateFormatter.dateStyle = .long
         dateFormatter.timeStyle = .none
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,8 +53,6 @@ class BirthdaysTableViewController: UITableViewController /* AddBirthdayViewCont
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "birthdayCellIdentifier", for: indexPath)
         let birthday = birthdays[indexPath.row]
-        //        cell.textLabel?.text = birthday.firstName + " " + birthday.lastName
-        //        cell.detailTextLabel?.text = dateFormatter.string(from: birthday.birthDate)
         let firstName = birthday.firstName ?? ""
         let lastName = birthday.lastName ?? ""
         cell.textLabel?.text = firstName + " " + lastName
@@ -64,22 +62,24 @@ class BirthdaysTableViewController: UITableViewController /* AddBirthdayViewCont
         } else {
             cell.detailTextLabel?.text = " "
         }
-        
+    
         return cell
     }
 
-    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
     
-
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if birthdays.count > indexPath.row {
             let birthday = birthdays[indexPath.row]
+            if let identifier = birthday.birthdayID {
+                let center = UNUserNotificationCenter.current()
+                center.removePendingNotificationRequests(withIdentifiers: [identifier])
+            }
             
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context = appDelegate.persistentContainer.viewContext
@@ -94,38 +94,4 @@ class BirthdaysTableViewController: UITableViewController /* AddBirthdayViewCont
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-    
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    
-//    // MARK: - Navigation
-//
-//    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destination.
-//        // Pass the selected object to the new view controller.
-//        let navigationController = segue.destination as! UINavigationController
-//        let addBirthdayViewController = navigationController.topViewController as! AddBirthdayViewController
-//        addBirthdayViewController.delegate = self
-//    }
-    
-//    // MARK: - AddBirthdayViewControllerDelegate
-//    func addBirthdayViewController(_ addBirthdayViewController: AddBirthdayViewController, didAddBirthday birthday: Birthday) {
-//        birthdays.append(birthday)
-//        tableView.reloadData()
-//    }
 }
